@@ -4,7 +4,7 @@ if [ $# -ne 2 ]
 then
   echo "Usage: Copy 'app_name'.app and 'app_name'.app.dSYM into `dirname $0` and run"
   echo "`basename $0` app_name crash_file.crash"
-  exit $E_BADARGS
+  exit 1
 fi
 
 CRASH=$2
