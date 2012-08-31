@@ -18,10 +18,10 @@ set -e
 CRASH_UUID=`grep --after-context=2 "Binary Images:" "${CRASH}" | grep "${APP}" | grep -o "<.*>" | sed -E "s/<(.*)>/\1/"`
 echo "Found crash UUID: ${CRASH_UUID}"
 
-APP_UUID=`dwarfdump --uuid ${APP}.app.dSYM`
+DYSYM_UUID=`dwarfdump --uuid ${APP}.app.dSYM`
 echo "Found app UUID: ${APP_UUID}"
 
-DYSYM_UUID=`dwarfdump --uuid ${APP}.app/${APP}`
+APP_UUID=`dwarfdump --uuid ${APP}.app/${APP}`
 echo "Found dsym UUID: ${DYSYM_UUID}"
 
 echo "-----------------------------------"
