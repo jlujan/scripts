@@ -16,17 +16,17 @@ SYMBOLICATE_PATH=${DEVELOPER_DIR}/Platforms/iPhoneOS.platform/Developer/Library/
 set -e
 
 CRASH_UUID=`grep --after-context=2 "Binary Images:" "${CRASH}" | grep "${APP}" | grep -o "<.*>" | sed -E "s/<(.*)>/\1/"`
-echo "Found crash UUID: ${CRASH_UUID}"
+echo "Found crash UUID: \"${CRASH_UUID}\""
 
-APP_UUID=`dwarfdump --uuid ${APP}.app/${APP}`
-echo "Found app UUID: ${APP_UUID}"
+APP_UUID=`dwarfdump --uuid ${APP}.app/${APP} | cut -d ' ' -f 2`
+echo "Found app UUID: \"${APP_UUID}\""
 
-DYSYM_UUID=`dwarfdump --uuid ${APP}.app.dSYM`
-echo "Found dsym UUID: ${DYSYM_UUID}"
+DYSYM_UUID=`dwarfdump --uuid ${APP}.app.dSYM  | cut -d ' ' -f 2`
+echo "Found dsym UUID: \"${DYSYM_UUID}\""
 
 echo "-----------------------------------"
 echo "UUID's must match ${CRASH_UUID} ${APP_UUID} ${DYSYM_UUID}"
 echo "-----------------------------------"
 
-mdfind "com_apple_xcode_dsym_uuids == ${UUID}"
+mdfind "com_apple_xcode_dsym_uuids = *"
 "${SYMBOLICATE_PATH}" "${CRASH}"
